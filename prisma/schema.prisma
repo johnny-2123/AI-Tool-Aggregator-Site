@@ -1,0 +1,70 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+enum Pricing {
+    FREE
+    PAID
+    SUBSCRIPTION
+}
+
+model App {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String?
+  url         String
+  pricing     Pricing
+  isApproved  Boolean       @default(false)
+  userId      String
+  submittedBy User          @relation(fields: [userId], references: [id])
+  categories  AppCategory[]
+  votes       Vote[]
+  createdAt   DateTime      @default(now()) @map(name: "created_at")
+  updatedAt   DateTime      @updatedAt @map(name: "updated_at")
+}
+
+model AppCategory {
+  appId      String
+  app        App      @relation(fields: [appId], references: [id])
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([appId, categoryId])
+}
+
+model Category {
+  id   String        @id @default(cuid())
+  name String        @unique
+  apps AppCategory[]
+}
+
+model User {
+  id          String   @id @default(cuid())
+  username    String   @unique
+  email       String?  @unique
+  password    String
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+  submissions App[]
+  votes       Vote[]
+
+  @@map(name: "users")
+}
+
+model Vote {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  app    App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+  appId  String
+  @@unique([userId, appId])
+}
