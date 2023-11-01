@@ -13,7 +13,6 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
-import GoogleSignInButton from "../GoogleSignInButton";
 import { useRouter } from "next/navigation";
 import { toast } from "@/src/components/ui/use-toast";
 
@@ -135,7 +134,6 @@ const SignUpForm = () => {
       <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
         or
       </div>
-      <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
       <p className="text-center text-sm text-gray-600 mt-2">
         {` If you already have an account please `}
         <Link href="/sign-in" className="text-blue-500 hover:underline">
