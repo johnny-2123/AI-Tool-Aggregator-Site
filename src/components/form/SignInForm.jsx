@@ -14,6 +14,7 @@ import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
+import { signIn } from "next-auth/react";
 import { toast } from "@/src/components/ui/use-toast";
 
 const FormSchema = z.object({
@@ -38,6 +39,15 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (values) => {
+    try {
+      const signInData = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+      });
+      console.log("sign in data", signInData);
+    } catch (error) {
+      console.error("Error during sign in:", error);
+    }
     //    toast({
     //   title: "You submitted the following values:",
     //   description: (
