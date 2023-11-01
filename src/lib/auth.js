@@ -1,6 +1,12 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "next-auth/prisma-adapter";
+import prisma from "@/src/lib/prisma";
 
 export const authOptions = {
+  adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: "/sign-in",
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -10,7 +16,11 @@ export const authOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        username: {
+          label: "email",
+          type: "email",
+          placeholder: "example@email.com",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
