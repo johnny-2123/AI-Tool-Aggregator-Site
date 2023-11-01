@@ -9,12 +9,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from "@/src/components/ui/form";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/src/components/ui/use-toast";
 
 const FormSchema = z.object({
   email: z
