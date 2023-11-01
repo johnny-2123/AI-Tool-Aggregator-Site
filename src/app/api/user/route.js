@@ -5,7 +5,6 @@ import { hash } from "bcrypt";
 export const POST = async (req) => {
   try {
     const body = await req.json();
-    console.log({ body });
     const { email, username, password } = body;
 
     // check if user with email already in db
@@ -47,9 +46,16 @@ export const POST = async (req) => {
       },
     });
 
+    const { password: newUserPassword, ...rest } = newUser;
+
     return NextResponse.json({
-      user: newUser,
+      user: rest,
       message: "Succesfully created new user",
     });
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json(
+      { message: "something went wrong" },
+      { status: 500 }
+    );
+  }
 };

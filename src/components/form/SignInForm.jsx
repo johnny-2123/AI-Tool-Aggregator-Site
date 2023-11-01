@@ -38,7 +38,6 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log("values", values);
     //    toast({
     //   title: "You submitted the following values:",
     //   description: (
