@@ -1,11 +1,28 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { hash } from "bcrypt";
+import * as z from "zod";
+
+const userSchema = z.object({
+  username: z
+    .string()
+    .min(1, "Username is required")
+    .max(30, "Username must be less than 30 characters"),
+  email: z
+    .string()
+    .min(1, {
+      message: "email must be at least 1 character.",
+    })
+    .email("Invalid Email"),
+  password: z.string().min(8, {
+    message: "password must be at least 8 characters.",
+  }),
+});
 
 export const POST = async (req) => {
   try {
     const body = await req.json();
-    const { email, username, password } = body;
+    const { email, username, password } = userSchema.parse(body);
 
     // check if user with email already in db
     const existingUserByEmail = await prisma.user.findUnique({

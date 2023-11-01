@@ -14,6 +14,7 @@ import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
+import { useRouter } from "next/navigation";
 import { toast } from "@/src/components/ui/use-toast";
 
 const FormSchema = z
@@ -39,6 +40,7 @@ const FormSchema = z
   });
 
 const SignUpForm = () => {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -50,6 +52,23 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (values) => {
+    const response = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      }),
+    });
+
+    if (response.ok) {
+      router.push("/sign-in");
+    } else {
+      console.error("Registration failed");
+    }
     //    toast({
     //   title: "You submitted the following values:",
     //   description: (
