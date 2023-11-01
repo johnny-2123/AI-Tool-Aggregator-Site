@@ -5,6 +5,15 @@ import { Home } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from "@/src/lib/auth";
 import SignOutButton from "./SignOutButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/src/components/ui/dropdown-menu";
+import Image from "next/image";
 
 const NavBar = async () => {
   const session = await getServerSession(authConfig);
@@ -20,10 +29,24 @@ const NavBar = async () => {
             Sign in
           </Link>
         ) : (
-          <div>
-            <span>{session?.user?.name}</span>
-            <SignOutButton />
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Image
+                src={session.user.image}
+                alt="Profile Picture"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="flex flex-col justify-center">
+              <DropdownMenuLabel className="flex justify-center">
+                {session?.user?.name}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <SignOutButton />
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
       </div>
     </nav>
