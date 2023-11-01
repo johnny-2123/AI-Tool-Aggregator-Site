@@ -53,7 +53,7 @@ const SignInForm = () => {
 
   return (
     <Form {...form}>
-      <form
+      {/* <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full mx-auto flex flex-col justify-center"
       >
@@ -93,17 +93,13 @@ const SignInForm = () => {
           Sign In
         </Button>
       </form>
-      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-        or
-      </div>
+   */}
+      <h1 className="text-center text-md text-gray-600 mt-2">
+        Sign in with one of the following auth providers
+      </h1>
+      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mx-4 before:block before:h-px before:flex-grow before:bg-stone-400 "></div>
       <GoogleSignInButton />
       <GithubSignInButton />
-      <p className="text-center text-sm text-gray-600 mt-2">
-        {` If you dont't have an account please `}
-        <Link href="/sign-up" className="text-blue-500 hover:underline">
-          Sign up
-        </Link>
-      </p>
     </Form>
   );
 };
