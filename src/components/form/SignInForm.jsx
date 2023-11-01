@@ -16,6 +16,7 @@ import Link from "next/link";
 import {
   GoogleSignInButton,
   GithubSignInButton,
+  FacebookSignInButton,
 } from "@/src/components/authButtons";
 import { toast } from "@/src/components/ui/use-toast";
 
@@ -100,6 +101,7 @@ const SignInForm = () => {
       <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mx-4 before:block before:h-px before:flex-grow before:bg-stone-400 "></div>
       <GoogleSignInButton />
       <GithubSignInButton />
+      <FacebookSignInButton />
     </Form>
   );
 };
