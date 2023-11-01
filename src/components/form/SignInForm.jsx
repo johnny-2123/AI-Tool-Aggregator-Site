@@ -13,7 +13,10 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
-import { GoogleSignInButton, GithubSignInButton } from "../authButtons";
+import {
+  GoogleSignInButton,
+  GithubSignInButton,
+} from "@/src/components/authButtons";
 import { toast } from "@/src/components/ui/use-toast";
 
 const FormSchema = z.object({
