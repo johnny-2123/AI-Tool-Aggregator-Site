@@ -19,10 +19,6 @@ import { toast } from "@/src/components/ui/use-toast";
 
 const FormSchema = z
   .object({
-    username: z
-      .string()
-      .min(1, "Username is required")
-      .max(30, "Username must be less than 30 characters"),
     email: z
       .string()
       .min(1, {
@@ -44,7 +40,6 @@ const SignUpForm = () => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -58,7 +53,6 @@ const SignUpForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: values.username,
         email: values.email,
         password: values.password,
       }),
@@ -86,19 +80,6 @@ const SignUpForm = () => {
         className="w-full mx-auto flex flex-col justify-center"
       >
         <div className="space-y-6">
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>username</FormLabel>
-                <FormControl>
-                  <Input placeholder="john doe" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="email"

@@ -13,7 +13,7 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
-import GoogleSignInButton from "../GoogleSignInButton";
+import { GoogleSignInButton, GithubSignInButton } from "../authButtons";
 import { toast } from "@/src/components/ui/use-toast";
 
 const FormSchema = z.object({
@@ -93,7 +93,8 @@ const SignInForm = () => {
       <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
         or
       </div>
-      <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
+      <GoogleSignInButton />
+      <GithubSignInButton />
       <p className="text-center text-sm text-gray-600 mt-2">
         {` If you dont't have an account please `}
         <Link href="/sign-up" className="text-blue-500 hover:underline">
