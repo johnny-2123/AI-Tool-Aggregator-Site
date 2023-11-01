@@ -4,6 +4,7 @@ import { buttonVariants } from "../components/ui/button";
 import { Home } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from "@/src/lib/auth";
+import SignOutButton from "./SignOutButton";
 
 const NavBar = async () => {
   const session = await getServerSession(authConfig);
@@ -19,7 +20,10 @@ const NavBar = async () => {
             Sign in
           </Link>
         ) : (
-          <span>Welcome, {session?.user?.name}</span>
+          <div>
+            <span>{session?.user?.name}</span>
+            <SignOutButton />
+          </div>
         )}
       </div>
     </nav>
