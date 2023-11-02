@@ -38,7 +38,6 @@ export const authConfig = {
 
 export async function loginIsRequiredServer() {
   const session = await getServerSession(authConfig);
-  console.log("$$$$$$$$$$session in auth.js file", session);
   if (!session) return redirect("/");
 }
 
