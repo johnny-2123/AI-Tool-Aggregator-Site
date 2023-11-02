@@ -56,10 +56,8 @@ export const POST = async (req, res) => {
         imageUrl,
         userId: session.user.id,
         categories: {
-          create: categories.map((category) => ({
-            category: {
-              connect: { id: category.id },
-            },
+          connect: categories.map((category) => ({
+            id: category.id,
           })),
         },
       },
