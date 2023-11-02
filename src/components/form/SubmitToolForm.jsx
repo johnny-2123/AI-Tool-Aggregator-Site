@@ -102,7 +102,9 @@ const SubmitToolForm = ({ session }) => {
       if (res.url) {
         return res.url;
       } else {
-        throw new Error("Something went wrong while uploading image");
+        throw new Error({
+          message: "Something went wrong while uploading image",
+        });
       }
     }
   };
@@ -115,35 +117,40 @@ const SubmitToolForm = ({ session }) => {
       return;
     }
 
-    const edgeImageUrl = await imageUpload();
+    try {
+      const edgeImageUrl = await imageUpload();
+      console.log("edge image url", edgeImageUrl);
 
-    console.log("edge image url", edgeImageUrl);
+      const toolBody = {
+        url: values.url,
+        title: values.title,
+        description: values.description,
+        pricing: values.pricing,
+        imageUrl: edgeImageUrl,
+        userId: session?.user?.id,
+        category: values.category,
+      };
 
-    const toolBody = {
-      url: values.url,
-      title: values.title,
-      description: values.description,
-      pricing: values.pricing,
-      imageUrl: edgeImageUrl,
-      userId: session?.user?.id,
-      category: values.category,
-    };
+      console.log("tool body", toolBody);
 
-    console.log("tool body", toolBody);
+      const response = await fetch("/api/tools", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(toolBody),
+      });
 
-    // const response = await fetch("/api/tools", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(toolBody),
-    // });
-
-    // if (response.ok) {
-    //   router.push("/sign-in");
-    // } else {
-    //   console.error("Submission failed");
-    // }
+      if (response.ok) {
+        const res = await response.json();
+        console.log("response from tool post route", res);
+      } else {
+        console.log("error in tool post route");
+        // throw new Error("Submission failed");
+      }
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    }
   };
 
   return (
