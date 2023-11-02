@@ -95,7 +95,7 @@ const SubmitToolForm = ({ session }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-3/5 mx-auto p-10 rounded-md outline-dotted"
+        className="w-11/12 mx-auto p-10 rounded-md border-2 border-primary my-4"
       >
         <div className="space-y-6">
           <FormField
@@ -145,6 +145,19 @@ const SubmitToolForm = ({ session }) => {
                 <FormLabel>pricing</FormLabel>
                 <FormControl>
                   <Input placeholder="enter tool pricing" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>categories</FormLabel>
+                <FormControl>
+                  <Input placeholder="enter tool categories" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
