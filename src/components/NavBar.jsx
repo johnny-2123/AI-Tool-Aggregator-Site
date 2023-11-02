@@ -1,10 +1,17 @@
-import React from "react";
-import Link from "next/link";
-import { buttonVariants } from "../components/ui/button";
 import { Home } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from "@/src/lib/auth";
-import SideBar from "@/src/components/Sidebar";
+import SignOutButton from "./SignOutButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/src/components/ui/dropdown-menu";
+import Image from "next/image";
+import Link from "next/link";
 
 const NavBar = async () => {
   const session = await getServerSession(authConfig);
@@ -20,10 +27,29 @@ const NavBar = async () => {
             Sign in
           </Link>
         ) : (
-          <SideBar session={session} />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Image
+                src={`${session.user.image}`}
+                alt="Profile Picture"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="flex flex-col justify-center w-60">
+              <DropdownMenuLabel className="flex justify-center">
+                {session?.user?.name}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Link href="/tools/new">Submit Tool</Link>
+              <SignOutButton />
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
       </div>
     </nav>
   );
 };
+
 export default NavBar;

@@ -1,19 +1,44 @@
 "use client";
 
-import React, { useState } from "react";
+import * as React from "react";
+import { useState } from "react";
+import { useEdgeStore } from "@/src/lib/edgestore";
+import { Progress } from "@/src/components/ui/progress";
+import { Input } from "@/src/components/ui/input";
 
-const SubmitToolForm = () => {
-  const [file, setFile] = useState(null);
-
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]); // Update the state to the first file
-  };
+export default function Page() {
+  const [file, setFile] = React.useState(null);
+  const [progress, setProgress] = useState(0);
+  const { edgestore } = useEdgeStore();
 
   return (
-    <div className="flex flex-col items-center m-6 gap-2">
-      <input type="file" name="fileInput" onChange={handleFileChange} />
+    <div className="flex flex-col items-center w-3/5 mx-auto">
+      <Input
+        type="file"
+        onChange={(e) => {
+          setFile(e.target.files?.[0]);
+        }}
+      />
+      <button
+        onClick={async () => {
+          if (file) {
+            const res = await edgestore.myPublicImages.upload({
+              file,
+              onProgressChange: (progress) => {
+                // you can use this to show a progress bar
+                setProgress(progress);
+                console.log(progress);
+              },
+            });
+            // you can run some server action or api here
+            // to add the necessary data to your database
+            console.log(res);
+          }
+        }}
+      >
+        Upload
+      </button>
+      <Progress value={progress} />
     </div>
   );
-};
-
-export default SubmitToolForm;
+}
