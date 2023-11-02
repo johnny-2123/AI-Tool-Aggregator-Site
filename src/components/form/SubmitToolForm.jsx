@@ -10,54 +10,78 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
-import { authConfig } from "@/src/lib/auth";
 import { redirect } from "next/navigation";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "@/src/components/ui/use-toast";
-import SubmitImageForm from "@/src/components/form/SubmitImageForm";
+import { useState, useEffect } from "react";
+import { useEdgeStore } from "@/src/lib/edgestore";
+import { Progress } from "@/src/components/ui/progress";
 
 const FormSchema = z.object({
-  title: z.string().min(1, "Title is required."),
-  description: z.string().min(1, "Description is required."),
-  // maybe not necessary since this wont be a form field
-  imageUrl: z.string().url("something went wrong"),
   url: z.string().min(1, "URL is required.").url("Must be a valid URL."),
+  title: z.string().min(1, {
+    message: "title is required",
+  }),
+  description: z.string().min(1, "Description is required."),
   pricing: z.string().min(1, "pricing is required"),
-  isApproved: z.boolean(),
-  categories: z.array(z.string()).min(1, "At least one category is required."),
-  //maybe not necessary since this wont be a form field
-  userId: z.string(),
+  //   categories: z.array(z.string()).min(1, "At least one category is required."),
 });
 
 const SubmitToolForm = ({ session }) => {
-  const router = useRouter();
+  console.log("session in submit tool form", session);
+
+  const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [edgeImageUrl, setEdgeImageUrl] = useState("");
+  const { edgestore } = useEdgeStore();
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      url: "",
       title: "",
       description: "",
-      url: "",
       pricing: "",
     },
   });
 
   const onSubmit = async (values) => {
     console.log("values **********************", values);
+
+    if (file) {
+      const res = await edgestore.myPublicImages.upload({
+        file,
+        onProgressChange: (progress) => {
+          setProgress(progress);
+          console.log(progress);
+        },
+      });
+      // run some server action or api here
+      // to add the necessary data to your database
+      console.log(res);
+      setEdgeImageUrl(res.url);
+    }
+
+    const toolBody = {
+      url: values.url,
+      title: values.title,
+      description: values.description,
+      pricing: values.pricing,
+      imageUrl: edgeImageUrl,
+      userId: session?.user?.id,
+      categories: values.categories,
+    };
+
+    console.log("tool body", toolBody);
+
     // const response = await fetch("/api/tools", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",
     //   },
-    //   body: JSON.stringify({
-    //     title: values.id,
-    //     description: values.description,
-    //     url: values.url,
-    //     pricing: values.pricing,
-    //     categories: values.categories,
-    //   }),
+    //   body: JSON.stringify(toolBody),
     // });
 
     // if (response.ok) {
@@ -69,7 +93,10 @@ const SubmitToolForm = ({ session }) => {
 
   return (
     <Form {...form}>
-      <form className="w-3/5 mx-auto p-10 rounded-md outline-dotted">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-3/5 mx-auto p-10 rounded-md outline-dotted"
+      >
         <div className="space-y-6">
           <FormField
             control={form.control}
@@ -123,8 +150,17 @@ const SubmitToolForm = ({ session }) => {
               </FormItem>
             )}
           />
-          <SubmitImageForm />
+          <Input
+            type="file"
+            onChange={(e) => {
+              setFile(e.target.files?.[0]);
+            }}
+            className="w-full mx-auto"
+          />
         </div>
+        <Button type="submit" className="w-full mx-auto mt-2">
+          Submit
+        </Button>
       </form>
     </Form>
   );
