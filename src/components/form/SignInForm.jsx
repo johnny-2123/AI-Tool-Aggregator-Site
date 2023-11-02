@@ -2,6 +2,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { Separator } from "@/src/components/ui/separator";
+import {
+  GoogleSignInButton,
+  GithubSignInButton,
+  FacebookSignInButton,
+} from "@/src/components/authButtons";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
 import {
   Form,
   FormControl,
@@ -13,11 +27,6 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import Link from "next/link";
-import {
-  GoogleSignInButton,
-  GithubSignInButton,
-  FacebookSignInButton,
-} from "@/src/components/authButtons";
 import { toast } from "@/src/components/ui/use-toast";
 
 const FormSchema = z.object({
@@ -95,13 +104,22 @@ const SignInForm = () => {
         </Button>
       </form>
    */}
-      <h1 className="text-center text-md text-gray-600 mt-2">
-        Sign in with one of the following auth providers
-      </h1>
-      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mx-4 before:block before:h-px before:flex-grow before:bg-stone-400 "></div>
-      <GoogleSignInButton />
-      <GithubSignInButton />
-      <FacebookSignInButton />
+      <Card>
+        <CardHeader className="pb-1">
+          <CardTitle className="text-center pb-1">Sign in</CardTitle>
+          <CardDescription className="mx-auto">
+            Using any of the following providers
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Separator className="my-4" />
+          <div className="space-y-2">
+            <GoogleSignInButton />
+            <GithubSignInButton />
+            <FacebookSignInButton />
+          </div>
+        </CardContent>
+      </Card>
     </Form>
   );
 };
