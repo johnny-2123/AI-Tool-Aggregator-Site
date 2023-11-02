@@ -16,6 +16,14 @@ enum Pricing {
     SUBSCRIPTION
 }
 
+enum CategoryName {
+  RESUME
+  INTERVIEW_PREP
+  JOB_BOARD
+  NETWORKING
+  OTHER
+}
+
 model App {
   id          String        @id @default(cuid())
   url         String
@@ -43,7 +51,7 @@ model AppCategory {
 
 model Category {
   id   String        @id @default(cuid())
-  name String        @unique
+  name CategoryName @unique
   apps AppCategory[]
 }
 
