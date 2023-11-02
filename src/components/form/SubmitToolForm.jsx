@@ -8,16 +8,45 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
   FormMessage,
 } from "@/src/components/ui/form";
-import { redirect } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
+import { Checkbox } from "@/src/components/ui/checkbox";
+import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
-import Link from "next/link";
-import { toast } from "@/src/components/ui/use-toast";
 import { useState, useEffect } from "react";
 import { useEdgeStore } from "@/src/lib/edgestore";
-import { Progress } from "@/src/components/ui/progress";
+
+const categoryOptions = [
+  {
+    id: "RESUME",
+    label: "Resume",
+  },
+  {
+    id: "INTERVIEW_PREP",
+    label: "Interview Prep",
+  },
+  {
+    id: "JOB_BOARD",
+    label: "Job Board",
+  },
+  {
+    id: "NETWORKING",
+    label: "Networking",
+  },
+  {
+    id: "OTHER",
+    label: "Other",
+  },
+];
 
 const FormSchema = z.object({
   url: z.string().min(1, "URL is required.").url("Must be a valid URL."),
@@ -26,16 +55,28 @@ const FormSchema = z.object({
   }),
   description: z.string().min(1, "Description is required."),
   pricing: z.string().min(1, "pricing is required"),
-  //   categories: z.array(z.string()).min(1, "At least one category is required."),
+  category: z
+    .array(z.string())
+    .refine((value) => value.some((category) => category), {
+      message: "You have to select at least one categories.",
+    }),
 });
 
 const SubmitToolForm = ({ session }) => {
   console.log("session in submit tool form", session);
 
   const [file, setFile] = useState(null);
+  const [fileError, setFileError] = useState("");
   const [progress, setProgress] = useState(0);
-  const [edgeImageUrl, setEdgeImageUrl] = useState("");
   const { edgestore } = useEdgeStore();
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFile(file);
+      setFileError("");
+    }
+  };
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -44,12 +85,11 @@ const SubmitToolForm = ({ session }) => {
       title: "",
       description: "",
       pricing: "",
+      category: [],
     },
   });
 
-  const onSubmit = async (values) => {
-    console.log("values **********************", values);
-
+  const imageUpload = async () => {
     if (file) {
       const res = await edgestore.myPublicImages.upload({
         file,
@@ -58,11 +98,26 @@ const SubmitToolForm = ({ session }) => {
           console.log(progress);
         },
       });
-      // run some server action or api here
-      // to add the necessary data to your database
       console.log(res);
-      setEdgeImageUrl(res.url);
+      if (res.url) {
+        return res.url;
+      } else {
+        throw new Error("Something went wrong while uploading image");
+      }
     }
+  };
+
+  const onSubmit = async (values) => {
+    console.log("values **********************", values);
+
+    if (!file) {
+      setFileError("An image file is required.");
+      return;
+    }
+
+    const edgeImageUrl = await imageUpload();
+
+    console.log("edge image url", edgeImageUrl);
 
     const toolBody = {
       url: values.url,
@@ -71,7 +126,7 @@ const SubmitToolForm = ({ session }) => {
       pricing: values.pricing,
       imageUrl: edgeImageUrl,
       userId: session?.user?.id,
-      categories: values.categories,
+      category: values.category,
     };
 
     console.log("tool body", toolBody);
@@ -103,7 +158,7 @@ const SubmitToolForm = ({ session }) => {
             name="url"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>url</FormLabel>
+                <FormLabel>Url</FormLabel>
                 <FormControl>
                   <Input placeholder="enter tool url" {...field} />
                 </FormControl>
@@ -116,7 +171,7 @@ const SubmitToolForm = ({ session }) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>title</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <FormControl>
                   <Input placeholder="enter tool title" {...field} />
                 </FormControl>
@@ -129,9 +184,9 @@ const SubmitToolForm = ({ session }) => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>description</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="enter tool description" {...field} />
+                  <Textarea placeholder="enter tool description" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -142,9 +197,18 @@ const SubmitToolForm = ({ session }) => {
             name="pricing"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>pricing</FormLabel>
+                <FormLabel>Pricing</FormLabel>
                 <FormControl>
-                  <Input placeholder="enter tool pricing" {...field} />
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select Pricing" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="FREE">Free</SelectItem>
+                      <SelectItem value="PAID">Paid</SelectItem>
+                      <SelectItem value="SUBSCRIPTION">Subscription</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,25 +217,70 @@ const SubmitToolForm = ({ session }) => {
           <FormField
             control={form.control}
             name="category"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
-                <FormLabel>categories</FormLabel>
-                <FormControl>
-                  <Input placeholder="enter tool categories" {...field} />
-                </FormControl>
+                <div className="mb-4">
+                  <FormLabel>Category</FormLabel>
+                  <FormDescription>
+                    Select relevant app categories
+                  </FormDescription>
+                </div>
+                {categoryOptions.map((item) => (
+                  <FormField
+                    key={item.id}
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item.id}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item.id])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item.id
+                                      )
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {item.label}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Input
-            type="file"
-            onChange={(e) => {
-              setFile(e.target.files?.[0]);
-            }}
-            className="w-full mx-auto"
-          />
+          <div>
+            <FormLabel>{`Image`}</FormLabel>
+            <FormDescription>
+              Please select a valid image file (PNG or JPEG).
+            </FormDescription>
+            <Input
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={handleFileChange}
+              className="w-full mx-auto mb-0"
+            />
+            {fileError && (
+              <p className="text-sm font-medium text-destructive pt-0">
+                {fileError}
+              </p>
+            )}
+          </div>
         </div>
-        <Button type="submit" className="w-full mx-auto mt-2">
+        <Button type="submit" className="w-full mx-auto mt-6">
           Submit
         </Button>
       </form>
