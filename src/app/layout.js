@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "@/src/styles/globals.css";
 import NavBar from "../components/NavBar";
 import { Toaster } from "@/src/components/ui/toaster";
+import { EdgeStoreProvider } from "@/src/lib/edgestore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +17,9 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <main className="h-screen flex flex-col justify-center items-center">
           <NavBar />
-          {children}
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
         </main>
+        <Toaster />
       </body>
     </html>
   );
