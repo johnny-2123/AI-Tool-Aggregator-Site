@@ -26,7 +26,7 @@ enum CategoryName {
 
 model App {
   id          String      @id @default(cuid())
-  url         String
+  url         String      @unique
   title       String
   description String
   pricing     Pricing
