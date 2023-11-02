@@ -18,7 +18,7 @@ const NavBar = async () => {
   const session = await getServerSession(authConfig);
   console.log("session ^^^^^^^^^^^^^^^^^^^^^^^^^^^^", session);
   return (
-    <nav className="bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0">
+    <nav className="bg-zinc-100 py-2 border-b border-s-zinc-200 w-full z-10">
       <div className="container flex items-center justify-between">
         <Link href="/">
           <Home className="w-7 h-7" />

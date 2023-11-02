@@ -15,11 +15,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="h-screen flex flex-col justify-center items-center">
+        <div className="flex flex-col h-screen">
           <NavBar />
-          <EdgeStoreProvider>{children}</EdgeStoreProvider>
-        </main>
-        <Toaster />
+          <main className="flex flex-1 items-center justify-center overflow-hidden">
+            <EdgeStoreProvider>{children}</EdgeStoreProvider>
+          </main>
+          <Toaster />
+        </div>
       </body>
     </html>
   );
