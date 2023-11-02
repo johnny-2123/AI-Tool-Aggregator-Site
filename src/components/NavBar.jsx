@@ -12,6 +12,7 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
+import { buttonVariants } from "@/src/components/ui/button";
 
 const NavBar = async () => {
   const session = await getServerSession(authConfig);
