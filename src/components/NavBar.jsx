@@ -5,7 +5,6 @@ import { Home } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from "@/src/lib/auth";
 import SideBar from "@/src/components/Sidebar";
-import Image from "next/image";
 
 const NavBar = async () => {
   const session = await getServerSession(authConfig);
