@@ -12,6 +12,7 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
+import { PlusCircle } from "lucide-react";
 import { buttonVariants } from "@/src/components/ui/button";
 
 const NavBar = async () => {
@@ -39,11 +40,16 @@ const NavBar = async () => {
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col justify-center w-60">
-              <DropdownMenuLabel className="flex justify-center">
+              <DropdownMenuLabel className="flex justify-center text-base">
                 {session?.user?.name}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link href="/tools/new">Submit Tool</Link>
+              <Link
+                href="/tools/new"
+                className="w-full flex justify-center items-center"
+              >
+                <PlusCircle className="mr-2" size={20} /> Submit Tool
+              </Link>
               <SignOutButton />
             </DropdownMenuContent>
           </DropdownMenu>
