@@ -25,11 +25,9 @@ export const POST = async (req, res) => {
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-  console.log("session in tools api route", session);
 
   try {
     const body = await req.json();
-    console.log("body in server: ", body);
     const {
       url,
       title,
@@ -57,7 +55,6 @@ export const POST = async (req, res) => {
         },
       },
     });
-    console.log("categories", categories);
 
     const newApp = await prisma.app.create({
       data: {
@@ -78,12 +75,14 @@ export const POST = async (req, res) => {
       },
     });
 
-    console.log("new app", newApp);
     return NextResponse.json({
       message: "New tool submitted",
       tool: newApp,
     });
   } catch (error) {
-    console.log("error in server for tool", error);
+    return NextResponse.json(
+      { message: "something went wrong" },
+      { status: 500 }
+    );
   }
 };

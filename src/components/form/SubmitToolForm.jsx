@@ -65,7 +65,6 @@ const FormSchema = z.object({
 });
 
 const SubmitToolForm = ({ session }) => {
-  console.log("session in submit tool form", session);
   const router = useRouter();
   const { toast } = useToast();
   const [file, setFile] = useState(null);
@@ -113,8 +112,6 @@ const SubmitToolForm = ({ session }) => {
   };
 
   const onSubmit = async (values) => {
-    console.log("values **********************", values);
-
     if (!file) {
       setFileError("An image file is required.");
       return;
@@ -122,7 +119,6 @@ const SubmitToolForm = ({ session }) => {
 
     try {
       const edgeImageUrl = await imageUpload();
-      console.log("edge image url", edgeImageUrl);
 
       const toolBody = {
         url: values.url,
@@ -133,8 +129,6 @@ const SubmitToolForm = ({ session }) => {
         userId: session?.user?.id,
         category: values.category,
       };
-
-      console.log("tool body", toolBody);
 
       const response = await fetch("/api/tools", {
         method: "POST",

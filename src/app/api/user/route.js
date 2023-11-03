@@ -50,7 +50,6 @@ export const POST = async (req) => {
       message: "Succesfully created new user",
     });
   } catch (error) {
-    console.log("error&&&&&&&&&&&&&&&&&&&&&&&", error);
     return NextResponse.json(
       { message: "something went wrong" },
       { status: 500 }
