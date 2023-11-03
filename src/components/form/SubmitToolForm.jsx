@@ -22,7 +22,8 @@ import { Checkbox } from "@/src/components/ui/checkbox";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useToast } from "@/src/components/ui/use-toast";
 import { useEdgeStore } from "@/src/lib/edgestore";
 
 const categoryOptions = [
@@ -65,18 +66,11 @@ const FormSchema = z.object({
 const SubmitToolForm = ({ session }) => {
   console.log("session in submit tool form", session);
 
+  const { toast } = useToast();
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState("");
   const [progress, setProgress] = useState(0);
   const { edgestore } = useEdgeStore();
-
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFile(file);
-      setFileError("");
-    }
-  };
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -88,6 +82,14 @@ const SubmitToolForm = ({ session }) => {
       category: [],
     },
   });
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFile(file);
+      setFileError("");
+    }
+  };
 
   const imageUpload = async () => {
     if (file) {
@@ -143,12 +145,15 @@ const SubmitToolForm = ({ session }) => {
 
       if (response.ok) {
         const res = await response.json();
+        toast({ title: "Your tool has been submitted" });
         console.log("response from tool post route", res);
       } else {
-        console.log("error in tool post route");
-        // throw new Error("Submission failed");
+        const res = await response.json();
+        toast({ title: res.message });
+        console.log("error in tool post route", res);
       }
     } catch (error) {
+      toast({ title: "Something went wrong" });
       console.error("Error during form submission:", error);
     }
   };

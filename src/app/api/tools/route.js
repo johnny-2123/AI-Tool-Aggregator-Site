@@ -26,6 +26,7 @@ export const POST = async (req, res) => {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   console.log("session in tools api route", session);
+
   try {
     const body = await req.json();
     console.log("body in server: ", body);
@@ -37,6 +38,17 @@ export const POST = async (req, res) => {
       imageUrl,
       category: categoryNames,
     } = toolSchema.parse(body);
+
+    const existingAppByUrl = await prisma.app.findUnique({
+      where: { url: url },
+    });
+
+    if (existingAppByUrl) {
+      return NextResponse.json(
+        { message: "Tool with this url already exists" },
+        { status: 409 }
+      );
+    }
 
     const categories = await prisma.category.findMany({
       where: {
@@ -69,7 +81,8 @@ export const POST = async (req, res) => {
     console.log("new app", newApp);
 
     return NextResponse.json({
-      message: "hello from tool route",
+      message: "New tool submitted",
+      tool: newApp,
     });
   } catch (error) {
     console.log("error in server for tool", error);
