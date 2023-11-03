@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import prisma from "@/src/lib/prisma";
-import { hash } from "bcrypt";
 import * as z from "zod";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/src/lib/auth";
@@ -22,6 +21,7 @@ const toolSchema = z.object({
 
 export const POST = async (req, res) => {
   const session = await getServerSession(authConfig);
+  console.log("session in tools api route", session);
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
@@ -80,6 +80,7 @@ export const POST = async (req, res) => {
       tool: newApp,
     });
   } catch (error) {
+    console.log("error in tools api route", error);
     return NextResponse.json(
       { message: "something went wrong" },
       { status: 500 }

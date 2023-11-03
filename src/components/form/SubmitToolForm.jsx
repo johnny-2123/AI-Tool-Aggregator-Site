@@ -26,23 +26,32 @@ import { Input } from "@/src/components/ui/input";
 import { useState } from "react";
 import { useToast } from "@/src/components/ui/use-toast";
 import { useEdgeStore } from "@/src/lib/edgestore";
+import findToolByUrl from "@/src/app/server actions/toolAlreadyExists";
 
-const categoryOptions = [
+const categoryNames = [
   {
-    id: "RESUME",
-    label: "Resume",
+    id: "AUDIO",
+    label: "Audio",
   },
   {
-    id: "INTERVIEW_PREP",
-    label: "Interview Prep",
+    id: "VISUAL",
+    label: "Visual",
   },
   {
-    id: "JOB_BOARD",
-    label: "Job Board",
+    id: "WRITING",
+    label: "Writing",
   },
   {
-    id: "NETWORKING",
-    label: "Networking",
+    id: "FACT_CHECKING",
+    label: "Fact Checking",
+  },
+  {
+    id: "SEO",
+    label: "SEO",
+  },
+  {
+    id: "TRANSLATION",
+    label: "Translation",
   },
   {
     id: "OTHER",
@@ -60,7 +69,7 @@ const FormSchema = z.object({
   category: z
     .array(z.string())
     .refine((value) => value.some((category) => category), {
-      message: "You have to select at least one categories.",
+      message: "You must select at least one category.",
     }),
 });
 
@@ -118,6 +127,17 @@ const SubmitToolForm = ({ session }) => {
     }
 
     try {
+      const toolAlreadyExists = await findToolByUrl(values.url);
+      console.log("tool already exists", toolAlreadyExists);
+      toast({ title: "Tool with this url already exists" });
+      if (toolAlreadyExists) return;
+    } catch (error) {
+      console.log(error);
+    }
+
+    toast({ title: "uploading submission..." });
+
+    try {
       const edgeImageUrl = await imageUpload();
 
       const toolBody = {
@@ -155,7 +175,7 @@ const SubmitToolForm = ({ session }) => {
       } else {
         const res = await response.json();
         toast({ title: res.message });
-        console.log("error in tool post route", res);
+        console.log("error submitting tool to post route", res);
       }
     } catch (error) {
       toast({ title: "Something went wrong" });
@@ -242,7 +262,7 @@ const SubmitToolForm = ({ session }) => {
                     Select relevant app categories
                   </FormDescription>
                 </div>
-                {categoryOptions.map((item) => (
+                {categoryNames.map((item) => (
                   <FormField
                     key={item.id}
                     control={form.control}
