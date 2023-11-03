@@ -79,7 +79,6 @@ export const POST = async (req, res) => {
     });
 
     console.log("new app", newApp);
-
     return NextResponse.json({
       message: "New tool submitted",
       tool: newApp,

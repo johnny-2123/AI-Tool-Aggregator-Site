@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/src/components/ui/select";
+import { useRouter } from "next/navigation";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
@@ -65,7 +66,7 @@ const FormSchema = z.object({
 
 const SubmitToolForm = ({ session }) => {
   console.log("session in submit tool form", session);
-
+  const router = useRouter();
   const { toast } = useToast();
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState("");
@@ -147,6 +148,16 @@ const SubmitToolForm = ({ session }) => {
         const res = await response.json();
         toast({ title: "Your tool has been submitted" });
         console.log("response from tool post route", res);
+
+        form.reset({
+          url: "",
+          title: "",
+          description: "",
+          pricing: "",
+          category: [],
+        });
+        setFile(null);
+        router.push("/");
       } else {
         const res = await response.json();
         toast({ title: res.message });

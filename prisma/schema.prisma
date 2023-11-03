@@ -32,8 +32,8 @@ model App {
   pricing     Pricing
   imageUrl    String?
   isApproved  Boolean     @default(false)
-  userId      String
-  submittedBy User        @relation(fields: [userId], references: [id])
+  userId      String?
+  submittedBy User?        @relation(fields: [userId], references: [id])
   categories  Category[]
   votes       Vote[]
   createdAt   DateTime    @default(now()) @map(name: "created_at")
