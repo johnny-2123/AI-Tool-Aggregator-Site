@@ -61,10 +61,16 @@ const categoryNames = [
 
 const FormSchema = z.object({
   url: z.string().min(1, "URL is required.").url("Must be a valid URL."),
-  title: z.string().min(1, {
-    message: "title is required",
-  }),
-  description: z.string().min(1, "Description is required."),
+  title: z
+    .string()
+    .min(1, {
+      message: "title is required",
+    })
+    .max(20, "Title must be less that 20 characters"),
+  description: z
+    .string()
+    .min(1, "Description is required.")
+    .max(220, "Description must be less that 220 characters"),
   pricing: z.string().min(1, "pricing is required"),
   category: z
     .array(z.string())
