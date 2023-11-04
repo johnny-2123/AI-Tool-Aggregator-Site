@@ -9,11 +9,10 @@ import {
 import Image from "next/image";
 import { AspectRatio } from "@/src/components/ui/aspect-ratio";
 import { ExternalLink } from "lucide-react";
-import Link from "next/link";
 
 const ToolCard = ({ tool }) => {
   return (
-    <Card className="w-1/3">
+    <Card className="w-[30%] m-2 flex flex-col">
       <CardHeader className="w-full px-0 pt-0">
         <AspectRatio ratio={16 / 9}>
           <Image
@@ -25,12 +24,12 @@ const ToolCard = ({ tool }) => {
           />
         </AspectRatio>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-1 flex-col">
         <CardTitle className="font-xl mb-2">{tool.title}</CardTitle>
         <CardDescription>{tool.description}</CardDescription>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <p>{tool.pricing.toLowerCase()}</p>
+        <p className="overflow-hidden">{tool.pricing.toLowerCase()}</p>
         <a href={tool.url} target="_blank">
           <ExternalLink />
         </a>
