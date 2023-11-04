@@ -2,12 +2,13 @@ import CategorySection from "@/src/components/Home Page/CategorySection";
 
 const HomePageBody = () => {
   const categories = [
-    "Audio",
     "Writing",
+    "Audio",
     "Visual",
     "Fact Checking",
     "SEO",
     "Translation",
+    "Other",
   ];
   return (
     <div>

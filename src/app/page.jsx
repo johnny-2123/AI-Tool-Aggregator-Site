@@ -5,7 +5,7 @@ import HomePageBody from "@/src/components/Home Page/HomePageBody";
 
 export default function Home() {
   return (
-    <ScrollArea className="outline-double w-full px-4 py-4">
+    <ScrollArea className="w-11/12 py-0">
       <HomePageHeader />
       <HomePageBody />
     </ScrollArea>
