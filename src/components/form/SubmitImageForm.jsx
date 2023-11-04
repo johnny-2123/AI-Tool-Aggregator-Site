@@ -20,12 +20,8 @@ export default function SubmitImageForm() {
         file,
         onProgressChange: (progress) => {
           setProgress(progress);
-          console.log(progress);
         },
       });
-      // run some server action or api here
-      // to add the necessary data to your database
-      console.log(res);
     }
   };
 

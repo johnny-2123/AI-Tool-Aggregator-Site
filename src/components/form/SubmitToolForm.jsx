@@ -128,7 +128,6 @@ const SubmitToolForm = ({ session }) => {
 
     try {
       const toolAlreadyExists = await findToolByUrl(values.url);
-      console.log("tool already exists", toolAlreadyExists);
       toast({ title: "Tool with this url already exists" });
       if (toolAlreadyExists) return;
     } catch (error) {
@@ -160,8 +159,7 @@ const SubmitToolForm = ({ session }) => {
 
       if (response.ok) {
         const res = await response.json();
-        toast({ title: "Your tool has been submitted" });
-        console.log("response from tool post route", res);
+        toast({ title: "Your tool has been submitted for review" });
 
         form.reset({
           url: "",
@@ -175,11 +173,9 @@ const SubmitToolForm = ({ session }) => {
       } else {
         const res = await response.json();
         toast({ title: res.message });
-        console.log("error submitting tool to post route", res);
       }
     } catch (error) {
       toast({ title: "Something went wrong" });
-      console.error("Error during form submission:", error);
     }
   };
 

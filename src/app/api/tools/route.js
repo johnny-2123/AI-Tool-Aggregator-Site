@@ -21,7 +21,6 @@ const toolSchema = z.object({
 
 export const POST = async (req, res) => {
   const session = await getServerSession(authConfig);
-  console.log("session in tools api route", session);
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
@@ -80,7 +79,6 @@ export const POST = async (req, res) => {
       tool: newApp,
     });
   } catch (error) {
-    console.log("error in tools api route", error);
     return NextResponse.json(
       { message: "something went wrong" },
       { status: 500 }

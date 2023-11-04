@@ -11,8 +11,6 @@ const getToolsByCategory = async ({ category, take }) => {
     take: 10,
   });
 
-  console.log("tools", tools);
-
   if (tools) {
     return tools;
   } else {
