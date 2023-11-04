@@ -12,7 +12,7 @@ import { ExternalLink } from "lucide-react";
 
 const ToolCard = ({ tool }) => {
   return (
-    <Card className="w-[30%] m-2 flex flex-col">
+    <Card className="w-[30%] md:w-[45%] sm:w-[100%] xs:w-[100%] m-2 flex flex-col">
       <CardHeader className="w-full px-0 pt-0">
         <AspectRatio ratio={16 / 9}>
           <Image

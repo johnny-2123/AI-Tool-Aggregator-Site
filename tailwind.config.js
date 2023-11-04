@@ -12,10 +12,25 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": { max: "1535px" },
+        xl: { max: "1279px" },
+        lg: { max: "1023px" },
+        md: { max: "900x" },
+        sm: { max: "700px" },
+        xs: { max: "590px" },
+        xxs: { max: "360px" },
       },
     },
     extend: {
+      screens: {
+        "2xl": { max: "1535px" },
+        xl: { max: "1279px" },
+        lg: { max: "900px" },
+        md: { max: "1000px" },
+        sm: { max: "700px" },
+        xs: { max: "590px" },
+        xxs: { max: "360px" },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
