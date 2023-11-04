@@ -17,7 +17,7 @@ const HomePageHeader = () => {
   ];
 
   return (
-    <div className="w-full mt-4 mb-10">
+    <div className="w-full mt-10 mb-16">
       <h1 className="text-5xl font-extrabold mb-6">AI Tools</h1>
       <div className="w-full">
         {categories.map((category) => (
