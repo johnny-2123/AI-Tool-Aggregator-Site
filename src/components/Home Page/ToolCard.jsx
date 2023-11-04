@@ -8,6 +8,8 @@ import {
 } from "@/src/components/ui/card";
 import Image from "next/image";
 import { AspectRatio } from "@/src/components/ui/aspect-ratio";
+import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 const ToolCard = ({ tool }) => {
   return (
@@ -17,18 +19,21 @@ const ToolCard = ({ tool }) => {
           <Image
             src={tool.imageUrl}
             alt={`image for ${tool.title}`}
-            width={500}
-            height={500}
+            layout="fill"
+            objectFit="cover"
             className="rounded-t"
           />
         </AspectRatio>
       </CardHeader>
       <CardContent>
-        <CardTitle className="font-xl">{tool.title}</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle className="font-xl mb-2">{tool.title}</CardTitle>
+        <CardDescription>{tool.description}</CardDescription>
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
+      <CardFooter className="flex justify-between">
+        <p>{tool.pricing.toLowerCase()}</p>
+        <a href={tool.url} target="_blank">
+          <ExternalLink />
+        </a>
       </CardFooter>
     </Card>
   );
