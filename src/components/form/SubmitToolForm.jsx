@@ -192,7 +192,7 @@ const SubmitToolForm = ({ session }) => {
         className="w-11/12 mx-auto p-10 rounded-md border-2 border-primary my-4"
       >
         <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight">
-          <span class="underline underline-offset-3 decoration-8 decoration-accent">
+          <span class="underline underline-offset-3 decoration-8 decoration-highlight">
             Submit Tool For Review
           </span>
         </h1>

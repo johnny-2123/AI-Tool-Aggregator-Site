@@ -47,7 +47,8 @@ const NavBar = async () => {
                 href="/tools/new"
                 className="w-full flex justify-center items-center"
               >
-                <PlusCircle className="mr-2" size={20} /> Submit Tool
+                <PlusCircle className="mr-2" size={20} />{" "}
+                <span>Submit Tool</span>
               </Link>
               <DropdownMenuSeparator className="mb-0 mt-2" />
               <SignOutButton />
