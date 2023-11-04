@@ -191,6 +191,11 @@ const SubmitToolForm = ({ session }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-11/12 mx-auto p-10 rounded-md border-2 border-primary my-4"
       >
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight">
+          <span class="underline underline-offset-3 decoration-8 decoration-accent">
+            Submit Tool For Review
+          </span>
+        </h1>
         <div className="space-y-6">
           <FormField
             control={form.control}
