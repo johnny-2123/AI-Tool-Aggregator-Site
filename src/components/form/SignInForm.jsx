@@ -50,60 +50,8 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = async (values) => {
-    //    toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // })
-  };
-
   return (
-    <Form {...form}>
-      {/* <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full mx-auto flex flex-col justify-center"
-      >
-        <div className="space-y-6">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>email</FormLabel>
-                <FormControl>
-                  <Input placeholder="email@example.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>password</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="enter your password"
-                    {...field}
-                    type="password"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button type="submit" className="mt-6">
-          Sign In
-        </Button>
-      </form>
-   */}
+    <Form {...form} className="">
       <Card>
         <CardHeader className="pb-1">
           <CardTitle className="text-center pb-1">Sign in</CardTitle>

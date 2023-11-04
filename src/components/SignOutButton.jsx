@@ -8,7 +8,7 @@ const SignOutButton = () => {
     <Button
       onClick={() => signOut()}
       variant="ghost"
-      className="mt-4 w-2/5 ml-auto mr-2"
+      className="mt-1 w-2/5 ml-auto mr-2"
     >
       Sign Out
     </Button>

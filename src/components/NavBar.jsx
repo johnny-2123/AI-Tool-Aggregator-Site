@@ -42,13 +42,14 @@ const NavBar = async () => {
               <DropdownMenuLabel className="flex justify-center text-base">
                 {session?.user?.name}
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="mb-2" />
               <Link
                 href="/tools/new"
                 className="w-full flex justify-center items-center"
               >
                 <PlusCircle className="mr-2" size={20} /> Submit Tool
               </Link>
+              <DropdownMenuSeparator className="mb-0 mt-2" />
               <SignOutButton />
             </DropdownMenuContent>
           </DropdownMenu>
