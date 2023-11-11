@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <div className="flex flex-col h-screen">
           <NavBar />
-          <main className="flex flex-1 justify-center overflow-hidden">
+          <main className="flex flex-1 justify-center overflow-auto">
             <EdgeStoreProvider>{children}</EdgeStoreProvider>
           </main>
           <Toaster />
