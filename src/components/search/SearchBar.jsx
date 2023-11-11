@@ -12,8 +12,6 @@ export default function SearchBar({ push, category }) {
   const router = useRouter();
   const { replace } = useRouter();
 
-  console.log("category in searh bar*****************", category);
-
   const [selectedBadge, setSelectedBadge] = useState(category);
   const [term, setTerm] = useState("");
 
@@ -68,7 +66,6 @@ export default function SearchBar({ push, category }) {
   };
 
   const handleSearch = useDebouncedCallback((input) => {
-    console.log(`searching....... ${input}`);
     setTerm(input);
 
     const params = new URLSearchParams(searchParams);

@@ -3,10 +3,8 @@ import SearchResults from "@/src/components/search/SearchResults";
 import { ScrollArea } from "@/src/components/ui/scroll-area";
 export default async function Page({ searchParams }) {
   const query = searchParams?.query || "";
-  console.log("query string in searh page", query);
 
   const category = searchParams?.category || "";
-  console.log("category in searh page", category);
 
   return (
     <div className="w-11/12 py-0">

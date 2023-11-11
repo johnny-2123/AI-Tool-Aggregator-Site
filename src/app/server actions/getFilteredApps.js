@@ -1,27 +1,26 @@
-"use server";
-
 import prisma from "@/src/lib/prisma";
 
 const getFilteredApps = async ({ query, category }) => {
-  console.log("search string in server action^^^^^^^^^^^", query);
-  console.log("category  in server action^^^^^^^^^^^", category);
+  let searchCondition = {
+    OR: [
+      { title: { contains: query, mode: "insensitive" } },
+      { description: { contains: query, mode: "insensitive" } },
+    ],
+  };
+
+  if (category !== "") {
+    searchCondition = {
+      AND: [{ categories: { some: { name: category } } }, searchCondition],
+    };
+  }
 
   const apps = await prisma.app.findMany({
-    where: {
-      AND: [
-        { categories: { some: { name: category } } },
-        {
-          OR: [
-            { title: { contains: query } },
-            { description: { contains: query } },
-          ],
-        },
-      ],
-    },
+    where: searchCondition,
     include: {
       categories: true,
     },
   });
+
   return apps;
 };
 

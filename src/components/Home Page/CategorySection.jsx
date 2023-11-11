@@ -12,8 +12,6 @@ const CategorySection = async ({ category }) => {
     take: 10,
   });
 
-  console.log(`tools for ${category.title}`, tools);
-
   return (
     <div className="mt-10 w-full">
       <h2 id={category.title} className="text-3xl font-semibold mb-6">
