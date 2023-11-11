@@ -4,18 +4,21 @@ import { ScrollArea } from "@/src/components/ui/scroll-area";
 export default async function Page({ searchParams }) {
   const query = searchParams?.query || "";
   console.log("query string in searh page", query);
+
+  const category = searchParams?.category || "";
+  console.log("category in searh page", category);
+
   return (
     <div className="w-11/12 py-0">
-      <div className="flex items-end mb-6">
-        <h1 class="mb-2 mt-4 mr-4 text-5xl font-extrabold leading-none tracking-tight">
-          <span class="underline underline-offset-3 decoration-8 decoration-highlight">
+      <div className="flex items-start md:flex-col mt-2 mb-4">
+        <h1 className="mr-4 text-5xl font-extrabold leading-none tracking-tight">
+          <span className="underline underline-offset-3 decoration-8 decoration-highlight">
             Search
           </span>
         </h1>{" "}
-        <SearchBar />
+        <SearchBar category={category} />
       </div>
-
-      <SearchResults query={query} />
+      <SearchResults query={query} category={category} />
     </div>
   );
 }
